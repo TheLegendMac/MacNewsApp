@@ -20,8 +20,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Article>> {
 
-    private static final String GUARDIAN_REQUEST_URL =
-            "https://content.guardianapis.com/search?api-key=8e7b8a75-07df-42d0-b2ee-a8838265fbe9";
+    //Please supply your own API key below
+    private static final String GUARDIAN_REQUEST_URL = "";
 
     private static final int ARTICLE_LOADER_ID = 1;
 
