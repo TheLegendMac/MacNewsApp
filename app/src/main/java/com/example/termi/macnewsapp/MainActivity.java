@@ -17,10 +17,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Article>> {
 
-    private static final String USGS_REQUEST_URL =
-            "http://content.guardianapis.com/search?q=debates&api-key=test";
+    private static final String GUARDIAN_REQUEST_URL =
+            "https://content.guardianapis.com/search?api-key=8e7b8a75-07df-42d0-b2ee-a8838265fbe9";
 
     private static final int ARTICLE_LOADER_ID = 1;
 
@@ -53,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         articleListView.setAdapter(mAdapter);
 
 
-        // Set an item click listener on the ListView, which sends an intent to a web browser
         // to open a website with more information about the selected article.
         articleListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -100,8 +100,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     @Override
-    public Loader<List<Article>> onCreateLoader(int i, Bundle bundle) {
-        return new ArticleLoader<List<Article>>(this,USGS_REQUEST_URL);
+    public ArticleLoader onCreateLoader(int i, Bundle bundle) {
+        return new ArticleLoader(this, GUARDIAN_REQUEST_URL);
     }
 
     @Override
@@ -111,12 +111,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         loadingIndicator.setVisibility(View.GONE);
 
         // Set empty state text to display "No articles found."
-        mEmptyStateTextView.setText(R.string.no_articles);
 
         // Clear the adapter of previous article data
         //mAdapter.clear();
 
-        // If there is a valid list of {@link Earthquake}s, then add them to the adapter's
+        // If there is a valid list of {@link article}s, then add them to the adapter's
         // data set. This will trigger the ListView to update.
         if (articles != null && !articles.isEmpty()) {
             mAdapter.addAll(articles);

@@ -49,10 +49,10 @@ public class QueryUtils {
             Log.e(LOG_TAG, "Problem making the HTTP request.", e);
         }
 
-        // Extract relevant fields from the JSON response and create a list of {@link Earthquake}s
+        // Extract relevant fields from the JSON response and create a list of {@link article}s
         List<Article> articles = extractFeatureFromJson(jsonResponse);
 
-        // Return the list of {@link Earthquake}s
+        // Return the list of {@link article}s
         return articles;
     }
 
@@ -158,29 +158,37 @@ public class QueryUtils {
             // which represents a list of features (or articles).
             JSONArray articleArray = articleResponse.getJSONArray("results");
 
-            // For each article in the earthquakeArray, create an {@link Earthquake} object
+            // For each article in the articleArray, create an {@link article} object
             for (int i = 0; i < articleArray.length(); i++) {
 
                 // Get a single article at position i within the list of articles
                 JSONObject currentArticle = articleArray.getJSONObject(i);
 
-                // Extract the value for the key called "mag"
+                // Extract the value for the key called "sectionName"
                 String sectionName = currentArticle.optString("sectionName");
 
-                // Extract the value for the key called "place"
-                String webTitle = currentArticle.getString("webTitle");
+                // Extract the value for the key called "webTitle"
+                String articleTitle = currentArticle.optString("webTitle");
 
-                // Extract the value for the key called "time"
-                String webPublicationDate = currentArticle.optString("webPublicationDate");
+                // Extract the value for the key called "webPublication"
+                //The "webPublicationDateAndTime" will hold the full date and time from the webPublicatonDate of the article
+                String webPublicationDateAndTime = currentArticle.getString("webPublicationDate");
 
-                // Extract the value for the key called "url"
-                String url = currentArticle.getString("url");
+                String[] webPublicationDateOnly;
+                webPublicationDateOnly = webPublicationDateAndTime.split("T");
 
-                // Create a new {@link Earthquake} object with the magnitude, location, time,
+                String webArticleDate = webPublicationDateOnly[0];
+                // Extract the value for the key called ""
+                String authorName = currentArticle.optString("pillarName");
+
+                // Extract the value for the key called "webTitle"
+                String url = currentArticle.optString("webUrl");
+
+                // Create a new {@link article} object with the magnitude, location, time,
                 // and url from the JSON response.
-                Article article = new Article(sectionName, webTitle, webPublicationDate, url);
+                Article article = new Article(articleTitle, authorName, sectionName, webArticleDate , url);
 
-                // Add the new {@link Earthquake} to the list of articles.
+                // Add the new {@link article} to the list of articles.
                 articles.add(article);
             }
 

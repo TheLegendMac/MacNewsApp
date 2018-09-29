@@ -2,20 +2,15 @@ package com.example.termi.macnewsapp;
 
 public class Article {
 
-    private String mTitle, mAuthor, mSectionTitle, mUrl;
+    private String mTitle, mAuthor, mSectionTitle, mUrl, mTimeInMilliseconds;
 
-    private long mTimeInMilliseconds;
 
-    public Article(String mTitle, String mAuthor, String mSectionTitle, long mTimeInMilliseconds, String mUrl) {
+    public Article(String mTitle, String mAuthor, String mSectionTitle, String mTimeInMilliseconds, String mUrl) {
         this.mTitle = mTitle;
         this.mAuthor = mAuthor;
         this.mSectionTitle = mSectionTitle;
         this.mTimeInMilliseconds = mTimeInMilliseconds;
         this.mUrl = mUrl;
-    }
-
-    public Article(String sectionName, String webTitle, String webPublicationDate, String url) {
-        super();
     }
 
     public String getmTitle() {
@@ -30,7 +25,7 @@ public class Article {
         return mSectionTitle;
     }
 
-    public long getmTimeInMilliseconds() {
+    public String getmTimeInMilliseconds() {
         return mTimeInMilliseconds;
     }
 

@@ -23,15 +23,15 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
      * Constructs a new {@link ArticleAdapter}.
      *
      * @param context     of the app
-     * @param earthquakes is the list of earthquakes, which is the data source of the adapter
+     * @param articles is the list of articles, which is the data source of the adapter
      */
-    public ArticleAdapter(Context context, List<Article> earthquakes) {
-        super(context, 0, earthquakes);
+    public ArticleAdapter(Context context, List<Article> articles) {
+        super(context, 0, articles);
     }
 
     /**
-     * Returns a list item view that displays information about the earthquake at the given position
-     * in the list of earthquakes.
+     * Returns a list item view that displays information about the article at the given position
+     * in the list of articles.
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -43,45 +43,31 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
                     R.layout.article_list_item, parent, false);
         }
 
-        // Find the earthquake at the given position in the list of earthquakes
+        // Find the article at the given position in the list of articles
         Article currentArticle = getItem(position);
 
-
-        // Find the TextView with view ID location
-        TextView primaryLocationView = (TextView) listItemView.findViewById(R.id.author_name);
-        // Display the location of the current earthquake in that TextView
-        primaryLocationView.setText(currentArticle.getmAuthor());
+        // Find the TextView with view ID time
+        TextView sectionTitle = (TextView) listItemView.findViewById(R.id.section_name);
+        // Display the time of the current article in that TextView
+        sectionTitle.setText(currentArticle.getmSectionTitle());
 
         // Find the TextView with view ID location offset
-        TextView locationOffsetView = (TextView) listItemView.findViewById(R.id.article_title);
-        // Display the location offset of the current earthquake in that TextView
-        locationOffsetView.setText(currentArticle.getmTitle());
+        TextView articleTitle = (TextView) listItemView.findViewById(R.id.article_title);
+        // Display the location offset of the current article in that TextView
+        articleTitle.setText(currentArticle.getmTitle());
 
-        // Create a new Date object from the time in milliseconds of the earthquake
-        Date dateObject = new Date(currentArticle.getmTimeInMilliseconds());
+        // Find the TextView with view ID location
+        TextView authorName = (TextView) listItemView.findViewById(R.id.author_name);
+        // Display the Author of the current article in that TextView
+        authorName.setText(currentArticle.getmAuthor());
 
         // Find the TextView with view ID date
         TextView dateView = (TextView) listItemView.findViewById(R.id.date);
-        // Format the date string (i.e. "Mar 3, 1984")
-        String formattedDate = formatDate(dateObject);
-        // Display the date of the current earthquake in that TextView
-        dateView.setText(formattedDate);
+        dateView.setText(currentArticle.getmTimeInMilliseconds());
 
-        // Find the TextView with view ID time
-        TextView timeView = (TextView) listItemView.findViewById(R.id.section_name);
-        // Display the time of the current earthquake in that TextView
-        timeView.setText(currentArticle.getmSectionTitle());
 
         // Return the list item view that is now showing the appropriate data
         return listItemView;
     }
 
-
-    /**
-     * Return the formatted date string (i.e. "Mar 3, 1984") from a Date object.
-     */
-    private String formatDate(Date dateObject) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("LLL dd, yyyy");
-        return dateFormat.format(dateObject);
-    }
 }

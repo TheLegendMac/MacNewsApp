@@ -74,7 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:textSize="12sp"
-            tools:text="3:00 PM" />
+            tools:text="" />
 
     </LinearLayout>
 </LinearLayout>

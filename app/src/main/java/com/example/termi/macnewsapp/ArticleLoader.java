@@ -1,11 +1,10 @@
 package com.example.termi.macnewsapp;
 
+import android.content.AsyncTaskLoader;
 import android.content.Context;
-import android.support.v4.content.AsyncTaskLoader;
-
 import java.util.List;
 
-public class ArticleLoader extends AsyncTaskLoader<List<Article>>{
+public class ArticleLoader extends AsyncTaskLoader<List<Article>> {
 
     /**
      * Tag for log messages
@@ -42,7 +41,7 @@ public class ArticleLoader extends AsyncTaskLoader<List<Article>>{
             return null;
         }
 
-        // Perform the network request, parse the response, and extract a list of earthquakes.
+        // Perform the network request, parse the response, and extract a list of articles.
         List<Article> articles = QueryUtils.fetchArticleData(mUrl);
         return articles;
     }
