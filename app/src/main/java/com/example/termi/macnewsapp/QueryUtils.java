@@ -45,6 +45,8 @@ public class QueryUtils {
         String jsonResponse = null;
         try {
             jsonResponse = makeHttpRequest(url);
+            Log.e(LOG_TAG, "Connecting  HTTP request.");
+
         } catch (IOException e) {
             Log.e(LOG_TAG, "Problem making the HTTP request.", e);
         }
@@ -63,6 +65,7 @@ public class QueryUtils {
         URL url = null;
         try {
             url = new URL(stringUrl);
+            Log.e(LOG_TAG, "Building URL");
         } catch (MalformedURLException e) {
             Log.e(LOG_TAG, "Problem building the URL ", e);
         }
@@ -84,8 +87,8 @@ public class QueryUtils {
         InputStream inputStream = null;
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000 /* milliseconds */);
-            urlConnection.setConnectTimeout(15000 /* milliseconds */);
+            urlConnection.setReadTimeout(10000); // milliseconds
+            urlConnection.setConnectTimeout(15000); // milliseconds
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
 
@@ -178,29 +181,34 @@ public class QueryUtils {
                 webPublicationDateOnly = webPublicationDateAndTime.split("T");
 
                 String webArticleDate = webPublicationDateOnly[0];
-                // Extract the value for the key called ""
-                String authorName = currentArticle.optString("pillarName");
 
                 // Extract the value for the key called "webTitle"
                 String url = currentArticle.optString("webUrl");
 
-                // Create a new {@link article} object with the magnitude, location, time,
-                // and url from the JSON response.
-                Article article = new Article(articleTitle, authorName, sectionName, webArticleDate , url);
+                String articleAuthor = " ";
+                if (currentArticle.has("tags")) {
+                    //Check if the JSONArray has the key "tags." Extract the value for the key called "webTitle."
+                    JSONArray tagsArray = currentArticle.getJSONArray("tags");
+                    if (tagsArray != null && tagsArray.length() > 0) {
+                        JSONObject authorTag = (JSONObject) tagsArray.get(0);
+                        articleAuthor = authorTag.getString("webTitle");
+                        articleAuthor = "Written by " + articleAuthor;
+                    }
 
-                // Add the new {@link article} to the list of articles.
-                articles.add(article);
+                    // Create a new {@link article} object with the magnitude, location, time,
+                    // and url from the JSON response.
+                    Article article = new Article(articleTitle, articleAuthor, sectionName, webArticleDate, url);
+                    // Add the article to the list of articles.
+                    articles.add(article);
+                }
+
             }
 
         } catch (JSONException e) {
-            // If an error is thrown when executing any of the above statements in the "try" block,
-            // catch the exception here, so the app doesn't crash. Print a log message
-            // with the message from the exception.
-            Log.e("QueryUtils", "Problem parsing the article JSON results", e);
+            Log.e("QueryUtils", "Problem parsing article JSON results", e);
         }
 
-        // Return the list of articles
+        // Return the list of articles.
         return articles;
     }
-
 }

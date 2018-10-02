@@ -16,15 +16,9 @@ public class ArticleLoader extends AsyncTaskLoader<List<Article>> {
      */
     private String mUrl;
 
-    /**
-     * Constructs a new {@link ArticleLoader}.
-     *
-     * @param context of the activity
-     * @param url     to load data from
-     */
-    public ArticleLoader(Context context, String url) {
+    public ArticleLoader(Context context, String guardianRequestUrl) {
         super(context);
-        mUrl = url;
+        this.mUrl = guardianRequestUrl;
     }
 
     @Override

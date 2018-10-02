@@ -21,7 +21,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Article>> {
 
     //Please supply your own API key below
-    private static final String GUARDIAN_REQUEST_URL = "";
+    private static final String GUARDIAN_REQUEST_URL = "https://content.guardianapis.com/search?section=technology&show-tags=contributor&show-fields=thumbnail&api-key=8e7b8a75-07df-42d0-b2ee-a8838265fbe9";
 
     private static final int ARTICLE_LOADER_ID = 1;
 
@@ -44,7 +44,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // Find a reference to the {@link ListView} in the layout
         ListView articleListView = (ListView) findViewById(R.id.list);
 
-        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
+        // Set an empty state TextView onto the ListView.
+        mEmptyStateTextView = findViewById(R.id.empty_view);
+        articleListView.setEmptyView(mEmptyStateTextView);
+
 
         // Create a new adapter that takes an empty list of articles as input
         mAdapter = new ArticleAdapter(this, new ArrayList<Article>());
@@ -110,16 +113,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         View loadingIndicator = findViewById(R.id.loading_indicator);
         loadingIndicator.setVisibility(View.GONE);
 
-        // Set empty state text to display "No articles found."
+        // Set empty state text to display message.
+        mEmptyStateTextView.setText(R.string.no_articles);
 
-        // Clear the adapter of previous article data
-        //mAdapter.clear();
+        // Clear the adapter of previous data
+        mAdapter.clear();
 
-        // If there is a valid list of {@link article}s, then add them to the adapter's
-        // data set. This will trigger the ListView to update.
+        // If there is a valid list of Articles, then add to adapter's data set. This will
+        // trigger the ListView to update.
         if (articles != null && !articles.isEmpty()) {
             mAdapter.addAll(articles);
-            updateUi(articles);
         }
     }
 
