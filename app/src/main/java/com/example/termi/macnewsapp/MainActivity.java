@@ -115,7 +115,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        String searchKeyword = sharedPrefs.getString(getString(R.string.settings_topics_key),getString(R.string.settings_topics_default));
+        String searchKeyword = sharedPrefs.getString(
+                getString(R.string.settings_topics_key),
+                getString(R.string.settings_topics_default));
 
         String orderBy = sharedPrefs.getString(
                 getString(R.string.settings_order_by_key),
