@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Contains labels for the user to read. -->
+    <string-array name="settings_topics_labels">
+        <item>Tech</item>
+        <item>Music</item>
+        <item>TV</item>
+        <item>Space</item>
+
+    </string-array>
+
+    <string-array name="settings_order_by_labels">
+        <item>Newest</item>
+        <item>Oldest</item>
+    </string-array>
+
+    <!-- Contains values to save for a preference when an entry from entries is selected. -->
+    <string-array name="settings_topics_values">
+        <item>Tech</item>
+        <item>Music</item>
+        <item>TV</item>
+        <item>Space</item>
+
+    </string-array>
+
+    <string-array name="settings_order_by_values">
+        <item>oldest</item>
+        <item>newest</item>
+    </string-array>
+
+</resources>

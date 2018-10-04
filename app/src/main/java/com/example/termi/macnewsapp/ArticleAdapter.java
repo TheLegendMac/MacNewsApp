@@ -11,6 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import static com.example.termi.macnewsapp.R.color.authorColor;
+
 public class ArticleAdapter extends ArrayAdapter<Article> {
 
 

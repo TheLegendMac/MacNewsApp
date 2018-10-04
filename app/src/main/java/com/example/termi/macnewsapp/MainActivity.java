@@ -4,11 +4,16 @@ import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -21,7 +26,10 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Article>> {
 
     //Please supply your own API key below
-    private static final String GUARDIAN_REQUEST_URL = "https://content.guardianapis.com/search?section=technology&show-tags=contributor&show-fields=thumbnail&api-key=8e7b8a75-07df-42d0-b2ee-a8838265fbe9";
+    private static final String GUARDIAN_REQUEST_URL = "https://content.guardianapis.com/search";
+
+    String apiKey = "8e7b8a75-07df-42d0-b2ee-a8838265fbe9";
+
 
     private static final int ARTICLE_LOADER_ID = 1;
 
@@ -104,8 +112,31 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public ArticleLoader onCreateLoader(int i, Bundle bundle) {
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        String searchKeyword = sharedPrefs.getString(getString(R.string.settings_topics_key),getString(R.string.settings_topics_default));
+
+        String orderBy = sharedPrefs.getString(
+                getString(R.string.settings_order_by_key),
+                getString(R.string.settings_order_by_default)
+        );
+
+        Uri baseUri = Uri.parse(GUARDIAN_REQUEST_URL);
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+
+        //Appending api to uri
+        uriBuilder.appendQueryParameter("show-tags", "contributor");
+        uriBuilder.appendQueryParameter("q", searchKeyword);
+        uriBuilder.appendQueryParameter("orderby", orderBy);
+        uriBuilder.appendQueryParameter("api-key", apiKey);
+
+        Log.i("main activity", "onCreateLoader: " + uriBuilder.toString());
+
+
         return new ArticleLoader(this, GUARDIAN_REQUEST_URL);
     }
+
 
     @Override
     public void onLoadFinished(Loader<List<Article>> loader, List<Article> articles) {
@@ -128,11 +159,24 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoaderReset(Loader<List<Article>> loader) {
-        // Loader reset, so we can clear out our existing data.
+        // Reset loader to clear existing data.
         mAdapter.clear();
     }
 
-    private void updateUi(List<Article> articles) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.full_main, menu);
+        return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsIntent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
