@@ -16,5 +16,5 @@
     <!-- Strings for Order By Preference [CHAR LIMIT=30] -->
     <string name="settings_order_by_label">Order By</string>
     <string name="settings_order_by_key" translatable="false">orderBy</string>
-    <string name="settings_order_by_default" translatable="false">newest</string>
+   <string name="settings_order_by_default" translatable="false">newest</string>
 </resources>
