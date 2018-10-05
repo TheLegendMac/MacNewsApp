@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Log.i("main activity", "onCreateLoader: " + uriBuilder.toString());
 
 
-        return new ArticleLoader(this, GUARDIAN_REQUEST_URL);
+        return new ArticleLoader(this, uriBuilder.toString());
     }
 
 
