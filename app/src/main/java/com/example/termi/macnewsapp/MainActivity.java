@@ -48,14 +48,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         // Find a reference to the {@link ListView} in the layout
         ListView articleListView = (ListView) findViewById(R.id.list);
 
-        // Set an empty state TextView onto the ListView.
-        mEmptyStateTextView = findViewById(R.id.empty_view);
+        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
         articleListView.setEmptyView(mEmptyStateTextView);
-
 
         // Create a new adapter that takes an empty list of articles as input
         mAdapter = new ArticleAdapter(this, new ArrayList<Article>());
@@ -64,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // so the list can be populated in the user interface
         articleListView.setAdapter(mAdapter);
 
-
+        // Set an item click listener on the ListView, which sends an intent to a web browser
         // to open a website with more information about the selected article.
         articleListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -106,15 +103,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             loadingIndicator.setVisibility(View.GONE);
 
             // Update empty state with no connection error message
-            mEmptyStateTextView.setText("No connection");
+            mEmptyStateTextView.setText(R.string.no_connection_text);
         }
     }
 
     @Override
-    public ArticleLoader onCreateLoader(int i, Bundle bundle) {
+    public Loader<List<Article>> onCreateLoader(int i, Bundle bundle) {
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-
         String searchKeyword = sharedPrefs.getString(
                 getString(R.string.settings_topics_key),
                 getString(R.string.settings_topics_default));
@@ -127,18 +123,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Uri baseUri = Uri.parse(GUARDIAN_REQUEST_URL);
         Uri.Builder uriBuilder = baseUri.buildUpon();
 
-        //Appending api to uri
         uriBuilder.appendQueryParameter("show-tags", "contributor");
         uriBuilder.appendQueryParameter("q", searchKeyword);
-        uriBuilder.appendQueryParameter("orderby", orderBy);
+        uriBuilder.appendQueryParameter("page-size", "15");
+        uriBuilder.appendQueryParameter("order-by", orderBy);
         uriBuilder.appendQueryParameter("api-key", apiKey);
 
-        Log.i("main activity", "onCreateLoader: " + uriBuilder.toString());
-
+        Log.i("Main Activity", "String URL that returns: " + uriBuilder.toString());
 
         return new ArticleLoader(this, uriBuilder.toString());
     }
-
 
     @Override
     public void onLoadFinished(Loader<List<Article>> loader, List<Article> articles) {
@@ -146,14 +140,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         View loadingIndicator = findViewById(R.id.loading_indicator);
         loadingIndicator.setVisibility(View.GONE);
 
-        // Set empty state text to display message.
+        // Set empty state text to display "No articles found."
         mEmptyStateTextView.setText(R.string.no_articles);
 
-        // Clear the adapter of previous data
+        // Clear the adapter of previous article data
         mAdapter.clear();
 
-        // If there is a valid list of Articles, then add to adapter's data set. This will
-        // trigger the ListView to update.
+        // If there is a valid list of {@link Article}s, then add them to the adapter's
+        // data set. This will trigger the ListView to update.
         if (articles != null && !articles.isEmpty()) {
             mAdapter.addAll(articles);
         }
@@ -161,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoaderReset(Loader<List<Article>> loader) {
-        // Reset loader to clear existing data.
+        // Loader reset, so we can clear out our existing data.
         mAdapter.clear();
     }
 

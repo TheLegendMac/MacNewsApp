@@ -174,7 +174,7 @@ public class QueryUtils {
                 String articleTitle = currentArticle.optString("webTitle");
 
                 // Extract the value for the key called "webPublication"
-                //The "webPublicationDateAndTime" will hold the full date and time from the webPublicatonDate of the article
+                //The "webPublicationDateAndTime" will hold the full date and time from the webPublicationDate of the article
                 String webPublicationDateAndTime = currentArticle.getString("webPublicationDate");
 
                 String[] webPublicationDateOnly;
@@ -192,7 +192,7 @@ public class QueryUtils {
                     if (tagsArray != null && tagsArray.length() > 0) {
                         JSONObject authorTag = (JSONObject) tagsArray.get(0);
                         articleAuthor = authorTag.getString("webTitle");
-                        articleAuthor = "Written by " + articleAuthor;
+                        articleAuthor = "Article by " + articleAuthor;
                     }
 
                     // Create a new {@link article} object with the magnitude, location, time,

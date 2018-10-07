@@ -1,5 +1,6 @@
 package com.example.termi.macnewsapp;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.ListPreference;
@@ -24,8 +25,8 @@ public class SettingsActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.settings_main);
 
-            Preference sortByKey = findPreference(getString(R.string.settings_topics_key));
-            bindPreferenceSummaryToValue(sortByKey);
+            Preference searchBy = findPreference(getString(R.string.settings_topics_key));
+            bindPreferenceSummaryToValue(searchBy);
 
             Preference orderBy = findPreference(getString(R.string.settings_order_by_key));
             bindPreferenceSummaryToValue(orderBy);
@@ -46,9 +47,7 @@ public class SettingsActivity extends AppCompatActivity {
             } else {
                 preference.setSummary(stringValue);
             }
-
             return true;
-
         }
 
         private void bindPreferenceSummaryToValue(Preference preference) {
@@ -57,7 +56,5 @@ public class SettingsActivity extends AppCompatActivity {
             String preferenceString = preferences.getString(preference.getKey(), "");
             onPreferenceChange(preference, preferenceString);
         }
-
     }
-
 }

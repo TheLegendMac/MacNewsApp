@@ -10,11 +10,12 @@
 
     <!-- Strings for Sections Preference [CHAR LIMIT=30] -->
     <string name="settings_topics_label">Search a Topic</string>
-    <string name="settings_topics_key" translatable="false">search</string>
-    <string name="settings_topics_default" translatable="false">all</string>
+    <string name="settings_topics_key" translatable="false">tags</string>
+    <string name="settings_topics_default" translatable="false">business</string>
 
     <!-- Strings for Order By Preference [CHAR LIMIT=30] -->
     <string name="settings_order_by_label">Order By</string>
-    <string name="settings_order_by_key" translatable="false">orderBy</string>
+    <string name="settings_order_by_key" translatable="false">order-by</string>
     <string name="settings_order_by_default" translatable="false">newest</string>
+    <string name="no_connection_text">No connection</string>
 </resources>
